@@ -58,28 +58,31 @@ void testApp::update(){
         pixels = camera.getPixels();
         int totalPixels = camWidth * camHeight;
         lineCounter = 0;
-        unsigned char tmpR = 0;
-        unsigned char tmpG = 0;
-        unsigned char tmpB = 0;
-        unsigned char tmpC = 0;
+        int tmpR = 0;
+        int tmpG = 0;
+        int tmpB = 0;
         
-        int tempCounter = 0; 
+        int tempCounter = 0;
+        
         for (int i = 0; i < totalPixels; i++) {
             
           //  videoInverted[i] = 255 - pixels[i];
             
             // Adding Colors
-            tmpR = pixels[i*3];
-            tmpG = pixels[i*3+1];
-            tmpB = pixels[i*3+2];
+            tmpR += pixels[i*3];
+            tmpG += pixels[i*3+1];
+            tmpB += pixels[i*3+2];
             //tmpC += pixels[i];
             tempCounter++;
             // Store Color
             if(i % camWidth == 0) {
                 // get the average value
-                tmpR = tmpR;
-                tmpG = tmpG;
-                tmpB = tmpB;
+               
+                ofLogNotice(ofToString(totalPixels));
+                ofLogNotice(ofToString(tmpR));
+                tmpR = tmpR/camWidth;
+                tmpG = tmpG/camWidth;
+                tmpB = tmpB/camWidth;
                 ofLogNotice("tempR = " + ofToString(tmpR));
                 // Set Avg Colours To Color Array
                 lineColors[lineCounter].r = int(tmpR);
@@ -90,7 +93,6 @@ void testApp::update(){
                 tmpR = 0;
                 tmpG = 0;
                 tmpB = 0;
-                tmpC = 0;
                 
                 // Iterate
                 lineCounter++;
