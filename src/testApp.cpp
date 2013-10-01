@@ -77,9 +77,9 @@ void testApp::update(){
             // Store Color
             if(i % camWidth == 0) {
                 // get the average value
-                tmpR = tmpR / camWidth;
-                tmpG = tmpG / camWidth;
-                tmpB = tmpB / camWidth;
+                tmpR = tmpR;
+                tmpG = tmpG;
+                tmpB = tmpB;
                 ofLogNotice("tempR = " + ofToString(tmpR));
                 // Set Avg Colours To Color Array
                 lineColors[lineCounter].r = int(tmpR);
