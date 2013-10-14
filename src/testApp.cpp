@@ -76,14 +76,11 @@ void testApp::update(){
             tempCounter++;
             // Store Color
             if(i % camWidth == 0) {
-                // get the average value
-               
-                ofLogNotice(ofToString(totalPixels));
-                ofLogNotice(ofToString(tmpR));
+                // Get the average value
                 tmpR = tmpR/camWidth;
                 tmpG = tmpG/camWidth;
                 tmpB = tmpB/camWidth;
-                ofLogNotice("tempR = " + ofToString(tmpR));
+               
                 // Set Avg Colours To Color Array
                 lineColors[lineCounter].r = int(tmpR);
                 lineColors[lineCounter].g = int(tmpG);
@@ -110,7 +107,7 @@ void testApp::draw(){
     // Raw Camera
     ofSetColor(255);
     camera.draw(50, 50, camWidth, camHeight);
-   // videoTexture.draw(50 ,camHeight + 50, camWidth, camHeight);
+    //videoTexture.draw(50 ,camHeight + 50, camWidth, camHeight);
     
     // Lines
     for (int i = 0; i < camHeight; i++) {

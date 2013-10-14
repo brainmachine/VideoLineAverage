@@ -2,6 +2,7 @@
 
 #include "ofMain.h"
 #include "AppCore.h"
+#include "ofxOsc.h"
 
 class testApp : public ofBaseApp{
     
@@ -23,6 +24,9 @@ public:
     
     // Pd
     AppCore core;
+    
+    //OSC
+    
     
     // Camera
     ofVideoGrabber  camera;
