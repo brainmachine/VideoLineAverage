@@ -60,6 +60,20 @@
 		9b6405ae8f948a9f1d414004 /* g_guiconnect.c in Sources */ = {isa = PBXBuildFile; fileRef = 1432c49539cc5a34a4fb81ff /* g_guiconnect.c */; };
 		9ebaf5b1949b2afc1a34e934 /* m_glob.c in Sources */ = {isa = PBXBuildFile; fileRef = 8e06d6055662272d6a767a06 /* m_glob.c */; };
 		BBAB23CB13894F3D00AA2426 /* GLUT.framework in CopyFiles */ = {isa = PBXBuildFile; fileRef = BBAB23BE13894E4700AA2426 /* GLUT.framework */; };
+		DEFE5DBC180BC865005785C0 /* IpEndpointName.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5D96180BC1C3005785C0 /* IpEndpointName.cpp */; };
+		DEFE5DBD180BC865005785C0 /* NetworkingUtils.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5D9B180BC1C3005785C0 /* NetworkingUtils.cpp */; };
+		DEFE5DBE180BC865005785C0 /* UdpSocket.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5D9C180BC1C3005785C0 /* UdpSocket.cpp */; };
+		DEFE5DBF180BC865005785C0 /* NetworkingUtilsWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DA0180BC1C3005785C0 /* NetworkingUtilsWin.cpp */; };
+		DEFE5DC0180BC865005785C0 /* UdpSocketWin.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DA1180BC1C3005785C0 /* UdpSocketWin.cpp */; };
+		DEFE5DC1180BC865005785C0 /* OscOutboundPacketStream.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DA6180BC1C3005785C0 /* OscOutboundPacketStream.cpp */; };
+		DEFE5DC2180BC865005785C0 /* OscPrintReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DA9180BC1C3005785C0 /* OscPrintReceivedElements.cpp */; };
+		DEFE5DC3180BC865005785C0 /* OscReceivedElements.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DAB180BC1C3005785C0 /* OscReceivedElements.cpp */; };
+		DEFE5DC4180BC865005785C0 /* OscTypes.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DAD180BC1C3005785C0 /* OscTypes.cpp */; };
+		DEFE5DC5180BC865005785C0 /* ofxOscBundle.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DB2180BC1C3005785C0 /* ofxOscBundle.cpp */; };
+		DEFE5DC6180BC865005785C0 /* ofxOscMessage.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DB4180BC1C3005785C0 /* ofxOscMessage.cpp */; };
+		DEFE5DC7180BC865005785C0 /* ofxOscParameterSync.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DB6180BC1C3005785C0 /* ofxOscParameterSync.cpp */; };
+		DEFE5DC8180BC865005785C0 /* ofxOscReceiver.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DB8180BC1C3005785C0 /* ofxOscReceiver.cpp */; };
+		DEFE5DC9180BC865005785C0 /* ofxOscSender.cpp in Sources */ = {isa = PBXBuildFile; fileRef = DEFE5DBA180BC1C3005785C0 /* ofxOscSender.cpp */; };
 		E4328149138ABC9F0047C5CB /* openFrameworksDebug.a in Frameworks */ = {isa = PBXBuildFile; fileRef = E4328148138ABC890047C5CB /* openFrameworksDebug.a */; };
 		E45BE97B0E8CC7DD009D7055 /* AGL.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9710E8CC7DD009D7055 /* AGL.framework */; };
 		E45BE97C0E8CC7DD009D7055 /* ApplicationServices.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = E45BE9720E8CC7DD009D7055 /* ApplicationServices.framework */; };
@@ -898,6 +912,20 @@
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				DEFE5DBC180BC865005785C0 /* IpEndpointName.cpp in Sources */,
+				DEFE5DBD180BC865005785C0 /* NetworkingUtils.cpp in Sources */,
+				DEFE5DBE180BC865005785C0 /* UdpSocket.cpp in Sources */,
+				DEFE5DBF180BC865005785C0 /* NetworkingUtilsWin.cpp in Sources */,
+				DEFE5DC0180BC865005785C0 /* UdpSocketWin.cpp in Sources */,
+				DEFE5DC1180BC865005785C0 /* OscOutboundPacketStream.cpp in Sources */,
+				DEFE5DC2180BC865005785C0 /* OscPrintReceivedElements.cpp in Sources */,
+				DEFE5DC3180BC865005785C0 /* OscReceivedElements.cpp in Sources */,
+				DEFE5DC4180BC865005785C0 /* OscTypes.cpp in Sources */,
+				DEFE5DC5180BC865005785C0 /* ofxOscBundle.cpp in Sources */,
+				DEFE5DC6180BC865005785C0 /* ofxOscMessage.cpp in Sources */,
+				DEFE5DC7180BC865005785C0 /* ofxOscParameterSync.cpp in Sources */,
+				DEFE5DC8180BC865005785C0 /* ofxOscReceiver.cpp in Sources */,
+				DEFE5DC9180BC865005785C0 /* ofxOscSender.cpp in Sources */,
 				E4B69E200A3A1BDC003C02F2 /* main.cpp in Sources */,
 				E4B69E210A3A1BDC003C02F2 /* testApp.cpp in Sources */,
 				77065a8a401d0997a27ae75c /* AppCore.cpp in Sources */,

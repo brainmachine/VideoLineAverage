@@ -4,6 +4,9 @@
 #include "AppCore.h"
 #include "ofxOsc.h"
 
+#define HOST "localhost"
+#define PORT 12345
+
 class testApp : public ofBaseApp{
     
 public:
@@ -26,7 +29,7 @@ public:
     AppCore core;
     
     //OSC
-    
+    ofxOscSender sender;
     
     // Camera
     ofVideoGrabber  camera;

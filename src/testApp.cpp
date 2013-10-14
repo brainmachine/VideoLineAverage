@@ -17,6 +17,9 @@ void testApp::setup(){
     ofSoundStreamSetup(2, 1, 44100, ofxPd::blockSize()*ticksPerBuffer, 3);
     core.setup(2, 1, 44100, ticksPerBuffer);
     
+    // OSC
+    sender.setup(HOST, PORT);
+    
     // Camera
     camWidth = 640;
     camHeight = 480;
