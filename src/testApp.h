@@ -30,7 +30,7 @@ public:
     
     //OSC
     ofxOscSender sender;
-    ofxOscMessage message;
+    
     
     // Camera
     ofVideoGrabber  camera;

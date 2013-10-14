@@ -19,7 +19,7 @@ void testApp::setup(){
     
     // OSC
     sender.setup(HOST, PORT);
-    message.setAddress("/colorArray");
+    
     
     // Camera
     camWidth = 640;
@@ -90,6 +90,7 @@ void testApp::update(){
                 lineColors[lineCounter].g = int(tmpG);
                 lineColors[lineCounter].b = int(tmpB);
                 
+                
                 // Reset Temp Colors
                 tmpR = 0;
                 tmpG = 0;
@@ -100,6 +101,22 @@ void testApp::update(){
                 
             }
         }
+        
+        // Pack everything in an OSC message
+        
+        ofxOscMessage message;
+        message.setAddress("/colorArray");
+        for (int i = 0; i < 480; i++) {
+            
+            //message.addInt64Arg(lineColors[i].r);
+          //  message.addIntArg(lineColors[i].r);
+            
+        }
+        sender.sendMessage(message);
+        
+        message.clear();
+        
+        
        // videoTexture.loadData(videoInverted, camWidth,camHeight, GL_RGB);
 	}
     
@@ -159,11 +176,12 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
+//    ofxOscMessage message;
+//    message.setAddress("/colorArray");
+//    message.addIntArg(x);
+//	message.addIntArg(y);
+//	sender.sendMessage(message);
     
-	
-	message.addIntArg(x);
-	message.addIntArg(y);
-	sender.sendMessage(message);
 }
 
 //--------------------------------------------------------------
