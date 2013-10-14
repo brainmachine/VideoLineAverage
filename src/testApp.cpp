@@ -158,7 +158,11 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-    
+    ofxOscMessage m;
+	m.setAddress("/mouse/position");
+	m.addIntArg(x);
+	m.addIntArg(y);
+	sender.sendMessage(m);
 }
 
 //--------------------------------------------------------------
