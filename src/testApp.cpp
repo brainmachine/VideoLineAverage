@@ -106,10 +106,12 @@ void testApp::update(){
         
         ofxOscMessage message;
         message.setAddress("/colorArray");
-        for (int i = 0; i < 10; i++) {
+        
+        for (int i; i < 10; i++) {
             
-            //message.addInt64Arg(lineColors[i].r);
-            message.addIntArg(lineColors[i].r);
+               message.addIntArg(lineColors[i].r);
+            
+           
             
         }
         sender.sendMessage(message);
