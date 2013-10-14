@@ -19,6 +19,7 @@ void testApp::setup(){
     
     // OSC
     sender.setup(HOST, PORT);
+    message.setAddress("/colorArray");
     
     // Camera
     camWidth = 640;
@@ -158,11 +159,11 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-    ofxOscMessage m;
-	m.setAddress("/mouse/position");
-	m.addIntArg(x);
-	m.addIntArg(y);
-	sender.sendMessage(m);
+    
+	
+	message.addIntArg(x);
+	message.addIntArg(y);
+	sender.sendMessage(message);
 }
 
 //--------------------------------------------------------------
