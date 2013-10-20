@@ -20,7 +20,6 @@ void testApp::setup(){
     // OSC
     sender.setup(HOST, PORT);
     
-    
     // Camera
     camWidth = 640;
     camHeight = 480;
@@ -49,6 +48,11 @@ void testApp::setup(){
     videoInverted 	= new unsigned char[camWidth*camHeight*3];
 	videoTexture.allocate(camWidth,camHeight, GL_RGB);
     
+    //Interesting stuff
+    
+    shadow = 255;
+    highlight = 0; // This is !wrong
+    
     cout << " -- END OF SETUP -- " << endl;
 }
 
@@ -68,6 +72,7 @@ void testApp::update(){
         
         int tempCounter = 0;
         
+        // Go through all the pixels in a single frame
         for (int i = 0; i < totalPixels; i++) {
             
           //  videoInverted[i] = 255 - pixels[i];
@@ -78,18 +83,31 @@ void testApp::update(){
             tmpB += pixels[i*3+2];
             //tmpC += pixels[i];
             tempCounter++;
-            // Store Color
+            
+            // Store Color for each line
             if(i % camWidth == 0) {
                 // Get the average value
                 tmpR = tmpR/camWidth;
                 tmpG = tmpG/camWidth;
                 tmpB = tmpB/camWidth;
                
-                // Set Avg Colours To Color Array
+                // Write Avg Colours To Color Array
                 lineColors[lineCounter].r = int(tmpR);
                 lineColors[lineCounter].g = int(tmpG);
                 lineColors[lineCounter].b = int(tmpB);
                 
+                // Determine brightness
+                int lineBrightness = (int(tmpR)+int(tmpG)+int(tmpB))/3;
+                
+                //Find highest value
+                if (lineBrightness > highlight) {
+                    highlight = lineBrightness;
+                }
+                
+                //Find lowest value
+                if (lineBrightness < shadow) {
+                    shadow = lineBrightness;
+                }
                 
                 // Reset Temp Colors
                 tmpR = 0;
@@ -98,22 +116,20 @@ void testApp::update(){
                 
                 // Iterate
                 lineCounter++;
-                
             }
         }
         
-        // Pack everything in an OSC message
         
+        // Pack everything in an OSC message
         ofxOscMessage message;
         message.setAddress("/colorArray");
         
-        for (int i; i < 10; i++) {
+       // for (int i; i < 10; i++) {
             
-               message.addIntArg(lineColors[i].r);
-            
-           
-            
-        }
+               //message.addIntArg(lineColors[i].r);
+            //test:
+            message.addIntArg(highlight);
+        //}
         sender.sendMessage(message);
         
        // message.clear();
@@ -139,9 +155,6 @@ void testApp::draw(){
         ofLine(camWidth + 100, 50 + i, camWidth*2 + 100, 50 + i);
     }
     
-    
-    
-    
     // Debug
     ofSetColor(0);
     char fpsStr[255];
@@ -163,8 +176,6 @@ void testApp::exit() {
 
 //--------------------------------------------------------------
 void testApp::keyPressed(int key){
-    
-    
     // Camera Settings
     if (key == 's' || key == 'S'){
 		camera.videoSettings();
@@ -178,12 +189,7 @@ void testApp::keyReleased(int key){
 
 //--------------------------------------------------------------
 void testApp::mouseMoved(int x, int y ){
-//    ofxOscMessage message;
-//    message.setAddress("/colorArray");
-//    message.addIntArg(x);
-//	message.addIntArg(y);
-//	sender.sendMessage(message);
-    
+ 
 }
 
 //--------------------------------------------------------------

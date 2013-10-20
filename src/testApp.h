@@ -31,7 +31,6 @@ public:
     //OSC
     ofxOscSender sender;
     
-    
     // Camera
     ofVideoGrabber  camera;
     int camWidth, camHeight;
@@ -52,6 +51,11 @@ public:
     
     // Misc
     Boolean verbose;
+    
+    // Interesting stuff
+    int shadow;
+    int highlight;
+    
     
     
 };
