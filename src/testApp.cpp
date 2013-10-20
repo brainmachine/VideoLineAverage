@@ -72,6 +72,10 @@ void testApp::update(){
         
         int tempCounter = 0;
         
+        //Reset highlight and shadow before checking each frame:
+        shadow = 255;
+        highlight = 0;
+        
         // Go through all the pixels in a single frame
         for (int i = 0; i < totalPixels; i++) {
             
@@ -83,6 +87,8 @@ void testApp::update(){
             tmpB += pixels[i*3+2];
             //tmpC += pixels[i];
             tempCounter++;
+            
+            
             
             // Store Color for each line
             if(i % camWidth == 0) {
@@ -128,7 +134,7 @@ void testApp::update(){
             
                //message.addIntArg(lineColors[i].r);
             //test:
-            message.addIntArg(highlight);
+            message.addIntArg(shadow);
         //}
         sender.sendMessage(message);
         
