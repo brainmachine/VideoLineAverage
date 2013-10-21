@@ -3,6 +3,9 @@
 #include "ofMain.h"
 #include "AppCore.h"
 #include "ofxOsc.h"
+#include "ofxSyphonClient.h"
+#import <Syphon/Syphon.h>
+#import "SyphonNameboundClient.h"
 
 #define HOST "localhost"
 #define PORT 12345
@@ -53,8 +56,16 @@ public:
     Boolean verbose;
     
     // Interesting stuff
-    int shadow;
-    int highlight;
+    int shadow; //doesn't work yet
+    int highlight; //works
+    
+    // Syphon
+    ofTexture tex; //tex to send
+    
+	ofxSyphonServer mainOutputSyphonServer;
+	ofxSyphonServer individualTextureSyphonServer;
+	
+	ofxSyphonClient mClient;
     
     
     
