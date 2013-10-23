@@ -92,9 +92,7 @@ void testApp::update() {
             tmpB += pixels[i*3+2];
             //tmpC += pixels[i];
             tempCounter++;
-            
-            
-            
+        
             // Store Color for each line
             if(i % camWidth == 0) {
                 // Get the average value
@@ -135,12 +133,6 @@ void testApp::update() {
             
         } //end of for loop
         
-        //        //Populate color array
-        //        for (int i = 0; i < 480; i) {
-        //            colorArray[i*3] = lineColors[i].r;
-        //            colorArray[i*3+1] = lineColors[i].g;
-        //            colorArray[i*3+2] = lineColors[i].g;
-        //        }
         texFbo.begin();
         ofClear(128, 128, 128, 255); // --->>> CALIBRATE
         // Lines
@@ -150,20 +142,10 @@ void testApp::update() {
             ofLine(0, i, camWidth, i);
         }
         texFbo.end();
-        //
+
         texFbo.readToPixels(pixelArray);
-        //        unsigned char pixels[200*100*4];
-        //
         colorPixels =  pixelArray.getPixels();
-        //tex.loadData(colorPixels, 640, 480, GL_RGBA);
-        
-        //   ofSetColor(255, 255, 255);
-        
         tex.loadData(colorPixels, 640, 480, GL_RGBA);
-        
-        
-        // tex.loadData(pixelArray);
-        
     } //end of if camera new
     
 } //end of update
@@ -178,15 +160,7 @@ void testApp::draw(){
     
     // Raw Camera
     ofSetColor(255);
-    // camera.draw(50, 50, camWidth, camHeight);
-    //videoTexture.draw(50 ,camHeight + 50, camWidth, camHeight);
-    
-    
-    
-    
-    //Load data into the texture
-    //tex.loadData(texFbo.getTextureReference(), 640, 480, GL_RGB);
-    
+     camera.draw(50, 50, camWidth, camHeight);
     
     //ofEnableAlphaBlending();
     ofSetColor(255, 255, 255);
@@ -197,15 +171,12 @@ void testApp::draw(){
     mClient.draw(50, 50);
     mainOutputSyphonServer.publishScreen();
     individualTextureSyphonServer.publishTexture(&tex);
-    
-    
+
     // Debug
     ofSetColor(0);
     char fpsStr[255];
     sprintf(fpsStr, "frame rate: %f", ofGetFrameRate());
     ofDrawBitmapString(fpsStr, 50, 700);
-    
-    
     
 }
 
