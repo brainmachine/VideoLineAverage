@@ -1,8 +1,13 @@
 #include "testApp.h"
 
+
+const int width = 800;
+const int height = 600;
+
 //--------------------------------------------------------------
 void testApp::setup(){
     
+	ofSetWindowTitle("beeeeeeeer");
     // Screen
     ofBackground(255);
     
@@ -11,14 +16,6 @@ void testApp::setup(){
     
     // Misc
     verbose = true;
-    
-    // Pd
-    int ticksPerBuffer = 8;
-    ofSoundStreamSetup(2, 1, 44100, ofxPd::blockSize()*ticksPerBuffer, 3);
-    core.setup(2, 1, 44100, ticksPerBuffer);
-    
-    // OSC
-    sender.setup(HOST, PORT);
     
     // Camera
     camWidth = 640;
@@ -29,23 +26,13 @@ void testApp::setup(){
     tmpB = 0;
     tmpC = 0;
     
-    /*  vector<ofVideoDevice> devices = camera.listDevices();
-     if(verbose) {
-     for(int i = 0; i < devices.size(); i++){
-     cout << devices[i].id << ": " << devices[i].deviceName;
-     if( devices[i].bAvailable ){
-     cout << endl;
-     }else{
-     cout << " - unavailable " << endl;
-     }
-     }
-     }*/
 	camera.setDeviceID(0);
 	camera.setDesiredFrameRate(60);
     camera.setVerbose(true);
     camera.initGrabber(camWidth, camHeight);
     
     videoInverted 	= new unsigned char[camWidth*camHeight*3];
+    
 	videoTexture.allocate(camWidth,camHeight, GL_RGB);
     
     //Interesting stuff
@@ -53,12 +40,30 @@ void testApp::setup(){
     shadow = 255;
     highlight = 0; // This is !wrong
     
+    // Syphon stuff
+    
+	mainOutputSyphonServer.setName("Screen Output");
+	individualTextureSyphonServer.setName("Texture Output");
+    
+	mClient.setup();
+    
+    //using Syphon app Simple Server, found at http://syphon.v002.info/
+    mClient.set("","Simple Server");
+	
+    tex.allocate(640, 480, GL_RGBA);
+    pixelArray.allocate(640, 480, OF_PIXELS_RGBA);
+    texFbo.allocate(640, 480, GL_RGBA);
+    texFbo.begin();
+    ofClear(255,255,255,0);
+    texFbo.end();
+    
     cout << " -- END OF SETUP -- " << endl;
+	pixels = new unsigned char[640*480*4];
+    colorPixels = new unsigned char[640*480*4];
 }
 
-//--------------------------------------------------------------
-void testApp::update(){
-    
+void testApp::update() {
+    //--------------------------------------------------------------
     // Camera
     camera.update();
     if (camera.isFrameNew()){
@@ -79,7 +84,7 @@ void testApp::update(){
         // Go through all the pixels in a single frame
         for (int i = 0; i < totalPixels; i++) {
             
-          //  videoInverted[i] = 255 - pixels[i];
+            //  videoInverted[i] = 255 - pixels[i];
             
             // Adding Colors
             tmpR += pixels[i*3];
@@ -96,11 +101,15 @@ void testApp::update(){
                 tmpR = tmpR/camWidth;
                 tmpG = tmpG/camWidth;
                 tmpB = tmpB/camWidth;
-               
+                
                 // Write Avg Colours To Color Array
                 lineColors[lineCounter].r = int(tmpR);
                 lineColors[lineCounter].g = int(tmpG);
                 lineColors[lineCounter].b = int(tmpB);
+                
+                colorPixels[i*3] = lineColors[lineCounter].r;
+                colorPixels[i*3+1] = lineColors[lineCounter].g;
+                colorPixels[i*3+2] = lineColors[lineCounter].g;
                 
                 // Determine brightness
                 int lineBrightness = (int(tmpR)+int(tmpG)+int(tmpB))/3;
@@ -122,44 +131,73 @@ void testApp::update(){
                 
                 // Iterate
                 lineCounter++;
-            }
-        }
-        
-        
-        // Pack everything in an OSC message
-        ofxOscMessage message;
-        message.setAddress("/colorArray");
-        
-       // for (int i; i < 10; i++) {
+            } //end of if
             
-               //message.addIntArg(lineColors[i].r);
-            //test:
-            message.addIntArg(shadow);
-        //}
-        sender.sendMessage(message);
+        } //end of for loop
         
-       // message.clear();
+        //        //Populate color array
+        //        for (int i = 0; i < 480; i) {
+        //            colorArray[i*3] = lineColors[i].r;
+        //            colorArray[i*3+1] = lineColors[i].g;
+        //            colorArray[i*3+2] = lineColors[i].g;
+        //        }
+        texFbo.begin();
+        ofClear(128, 128, 128, 255); // --->>> CALIBRATE
+        // Lines
+        for (int i = 0; i < camHeight; i++) {
+            ofSetColor(lineColors[i]);
+            //cout << lineColors[i] << endl;
+            ofLine(0, i, camWidth, i);
+        }
+        texFbo.end();
+        //
+        texFbo.readToPixels(pixelArray);
+        //        unsigned char pixels[200*100*4];
+        //
+        colorPixels =  pixelArray.getPixels();
+        //tex.loadData(colorPixels, 640, 480, GL_RGBA);
+        
+        //   ofSetColor(255, 255, 255);
+        
+        tex.loadData(colorPixels, 640, 480, GL_RGBA);
         
         
-       // videoTexture.loadData(videoInverted, camWidth,camHeight, GL_RGB);
-	}
+        // tex.loadData(pixelArray);
+        
+    } //end of if camera new
     
-}
+} //end of update
+
 
 //--------------------------------------------------------------
 void testApp::draw(){
     
+    // Clear with alpha, so we can capture via syphon and composite elsewhere should we want.
+    glClearColor(0.0, 0.0, 0.0, 0.0);
+    glClear(GL_COLOR_BUFFER_BIT | GL_DEPTH_BUFFER_BIT);
+    
     // Raw Camera
     ofSetColor(255);
-    camera.draw(50, 50, camWidth, camHeight);
+    // camera.draw(50, 50, camWidth, camHeight);
     //videoTexture.draw(50 ,camHeight + 50, camWidth, camHeight);
     
-    // Lines
-    for (int i = 0; i < camHeight; i++) {
-        ofSetColor(lineColors[i]);
-        //cout << lineColors[i] << endl;
-        ofLine(camWidth + 100, 50 + i, camWidth*2 + 100, 50 + i);
-    }
+    
+    
+    
+    //Load data into the texture
+    //tex.loadData(texFbo.getTextureReference(), 640, 480, GL_RGB);
+    
+    
+    //ofEnableAlphaBlending();
+    ofSetColor(255, 255, 255);
+    
+    //texFbo.draw(0,0);
+    tex.draw(0, 0);
+    // Syphon Stuff
+    mClient.draw(50, 50);
+    mainOutputSyphonServer.publishScreen();
+    individualTextureSyphonServer.publishTexture(&tex);
+    
     
     // Debug
     ofSetColor(0);
@@ -167,63 +205,9 @@ void testApp::draw(){
     sprintf(fpsStr, "frame rate: %f", ofGetFrameRate());
     ofDrawBitmapString(fpsStr, 50, 700);
     
-}
-
-//--------------------------------------------------------------
-void testApp::exit() {
-    ofLogNotice("Exiting App");
     
-    // Close Pd
-	core.exit();
-    
-    // Close Camera
-    camera.close();
-}
-
-//--------------------------------------------------------------
-void testApp::keyPressed(int key){
-    // Camera Settings
-    if (key == 's' || key == 'S'){
-		camera.videoSettings();
-	}
-}
-
-//--------------------------------------------------------------
-void testApp::keyReleased(int key){
     
 }
 
-//--------------------------------------------------------------
-void testApp::mouseMoved(int x, int y ){
- 
-}
 
-//--------------------------------------------------------------
-void testApp::mouseDragged(int x, int y, int button){
-    
-}
 
-//--------------------------------------------------------------
-void testApp::mousePressed(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::mouseReleased(int x, int y, int button){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::windowResized(int w, int h){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::gotMessage(ofMessage msg){
-    
-}
-
-//--------------------------------------------------------------
-void testApp::dragEvent(ofDragInfo dragInfo){
-    
-}
