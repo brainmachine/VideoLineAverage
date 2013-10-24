@@ -54,7 +54,7 @@ void testApp::setup(){
     pixelArray.allocate(640, 480, OF_PIXELS_RGBA);
     texFbo.allocate(640, 480, GL_RGBA);
     texFbo.begin();
-    ofClear(255,255,255,0);
+    ofClear(255,255,255,0); // -> is this right?
     texFbo.end();
     
     cout << " -- END OF SETUP -- " << endl;
@@ -83,9 +83,6 @@ void testApp::update() {
         
         // Go through all the pixels in a single frame
         for (int i = 0; i < totalPixels; i++) {
-            
-            //  videoInverted[i] = 255 - pixels[i];
-            
             // Adding Colors
             tmpR += pixels[i*3];
             tmpG += pixels[i*3+1];
@@ -160,13 +157,13 @@ void testApp::draw(){
     
     // Raw Camera
     ofSetColor(255);
-     camera.draw(50, 50, camWidth, camHeight);
+     camera.draw(camWidth+50, 50, camWidth, camHeight);
     
     //ofEnableAlphaBlending();
     ofSetColor(255, 255, 255);
     
     //texFbo.draw(0,0);
-    tex.draw(0, 0);
+    tex.draw(50, 50);
     // Syphon Stuff
     mClient.draw(50, 50);
     mainOutputSyphonServer.publishScreen();

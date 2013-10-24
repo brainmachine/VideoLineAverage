@@ -43,6 +43,7 @@ public:
     ofTexture tex;
     ofFbo texFbo;
     ofPixels pixelArray;
+    
 	ofxSyphonServer mainOutputSyphonServer;
 	ofxSyphonServer individualTextureSyphonServer;
 	
