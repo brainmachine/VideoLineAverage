@@ -12,7 +12,7 @@ void ofApp::setup() {
     font.loadFont("font/Courier New Bold.ttf", 9);
     
     // Misc
-    verbose = false;
+    verbose = true;
     cellWidth  = 480;
     cellHeight = 360;
     
@@ -142,7 +142,7 @@ void ofApp::update() {
         
         // Draw FBOs
         averageLines.begin();
-        ofClear(128, 128, 128, 255); // --->>> CALIBRATE
+        ofClear(0, 0, 0, 255); // --->>> CALIBRATE
         for(int i = 0; i < camHeight; i++) {
             ofSetColor(lineColors[i]);
             ofLine(0, i, camWidth, i);
@@ -150,7 +150,7 @@ void ofApp::update() {
         averageLines.end();
         
         sortedLines.begin();
-        ofClear(128, 128, 128, 255);
+        ofClear(0, 0, 0, 255);
         for(int i = 0; i < camHeight/10; i++) {
             ofSetColor(blockColors[i]);
             ofRect(0, -10 + i*10, camWidth, -10 + i*10);
