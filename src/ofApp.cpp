@@ -188,11 +188,11 @@ void ofApp::draw() {
     sortedLines.draw(cellWidth*2, 0, cellWidth, cellHeight); // 960, 0    || TR
     
     // Cropped Camera
-    croppedCamera.draw(0, cellHeight, cellWidth, cellHeight); // 0, 360    || ML
+    //croppedCamera.draw(0, cellHeight, cellWidth, cellHeight); // 0, 360    || ML
     
     // Texture
     ofSetColor(255, 255, 255);
-    tex.draw(cellWidth, cellHeight, cellWidth, cellHeight); // 480, 360    || MC
+    //tex.draw(cellWidth, cellHeight, cellWidth, cellHeight); // 480, 360    || MC
     
     // Syphon
 	mainOutputSyphonServer.publishScreen();
