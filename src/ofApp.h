@@ -27,9 +27,23 @@ public:
     int camWidth, camHeight;
     unsigned char *cameraPixels;
     unsigned char *colorPixels;
+    
+    // Crop
     int cropWidth, cropOffset;
+    int nearBeer, farBeer;
     ofImage croppedCamera;
     ofPixels tmpCamera;
+    
+    // Audio
+    void audioIn(float * input, int bufferSize, int nChannels);
+    vector <float> left;
+    vector <float> right;
+    vector <float> volHistory;
+    int 	bufferCounter;
+    int 	drawCounter;
+    float smoothedVol;
+    float scaledVol;
+    ofSoundStream soundStream;
     
     // Syphon
     ofTexture tex;
@@ -51,9 +65,12 @@ public:
     // FBOs
     ofFbo   averageLines;
     ofFbo   sortedLines;
+    ofFbo   dataSet;
+    ofFbo   interpretivePanel;
+    ofFbo   audioFbo;
     
     // Font
-    ofTrueTypeFont font;
+    ofTrueTypeFont mainFont, subFont;
     
     // Misc
     Boolean verbose;
